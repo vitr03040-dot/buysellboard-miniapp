@@ -5,7 +5,6 @@ tg.expand();
 // ⚠️ Замените на вашу реальную ссылку от Render!
 const API = 'https://buysellboard.onrender.com';
 
-// Загружаем объявления при старте
 loadAds();
 
 async function loadAds() {
@@ -28,30 +27,26 @@ function renderAds(ads) {
     }
     
     grid.innerHTML = ads.map(ad => `
-        <div class="ad-card" onclick='showDetails(${JSON.stringify(ad)})'>
+        <div class="ad-card" onclick='showDetails("${ad.title}", "${ad.price}", "${ad.contact}")'>
             <div class="ad-title">${ad.title}</div>
             <div class="ad-price">${ad.price} ₽</div>
         </div>
     `).join('');
 }
 
-// Функция показа деталей объявления
-function showDetails(ad) {
-    const text = `🔹 *${ad.title}*\n\n${ad.description || 'Без описания'}\n\n💰 ${ad.price} ₽\n\n📞 ${ad.contact}`;
-    tg.showAlert(text.replace(/\*/g, ''));
+function showDetails(title, price, contact) {
+    const text = `🔹 ${title}\n\n💰 ${price} ₽\n\n📞 ${contact}`;
+    tg.showAlert(text);
 }
 
-// Показать форму добавления
 function showForm() { 
     document.getElementById('adForm').style.display = 'block'; 
 }
 
-// Скрыть форму
 function hideForm() { 
     document.getElementById('adForm').style.display = 'none'; 
 }
 
-// Отправка нового объявления
 async function submit() {
     const title = document.getElementById('title').value;
     const price = document.getElementById('price').value;
@@ -76,39 +71,8 @@ async function submit() {
         
         tg.showAlert('✅ Опубликовано!');
         hideForm();
-        loadAds(); // Обновляем ленту
+        loadAds();
     } catch (error) {
         tg.showAlert('❌ Ошибка публикации');
     }
-}
-
-async function loadAds() {
-    const res = await fetch(`${API}/api/ads`);
-    const ads = await res.json();
-    const grid = document.getElementById('adsGrid');
-    grid.innerHTML = ads.map(ad => `
-        <div class="ad-card">
-            <div class="ad-title">${ad.title}</div>
-            <div class="ad-price">${ad.price} ₽</div>
-        </div>
-    `).join('');
-}
-
-function showForm() { document.getElementById('adForm').style.display = 'block'; }
-function hideForm() { document.getElementById('adForm').style.display = 'none'; }
-
-async function submit() {
-    const title = document.getElementById('title').value;
-    const price = document.getElementById('price').value;
-    const contact = document.getElementById('contact').value;
-    
-    await fetch(`${API}/api/ads`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, price, contact, user_id: tg.initDataUnsafe?.user?.id })
-    });
-    
-    tg.showAlert('✅ Опубликовано!');
-    hideForm();
-    loadAds();
 }
