@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuySellBoard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>🛒 BuySellBoard</h1>
+        <button class="btn-add" onclick="showForm()">➕</button>
+    </div>
+    <div class="ads-grid" id="adsGrid"></div>
+    <div class="form" id="adForm">
+        <h2>Новое объявление</h2>
+        <input id="title" placeholder="Заголовок">
+        <input id="price" placeholder="Цена" type="number">
+        <input id="contact" placeholder="Контакты">
+        <button onclick="submit()">Опубликовать</button>
+        <button onclick="hideForm()" class="cancel">Отмена</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
