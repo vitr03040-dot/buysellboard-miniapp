@@ -2,7 +2,7 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-const API = 'https://ВАШ-СЕРВЕР.onrender.com';
+const API = 'https://buysellboard.onrender.com';
 
 loadAds();
 
